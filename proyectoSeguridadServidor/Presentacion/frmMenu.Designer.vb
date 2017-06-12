@@ -23,8 +23,9 @@ Partial Class frmMenu
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMenu))
-		Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+		Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
 		Me.pnlComs = New DevExpress.XtraEditors.PanelControl()
+		Me.listaDes = New System.Windows.Forms.ListBox()
 		Me.Label2 = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.lblMensajeE = New System.Windows.Forms.Label()
@@ -59,7 +60,8 @@ Partial Class frmMenu
 		Me.BarButtonItem2 = New DevExpress.XtraBars.BarButtonItem()
 		Me.pnlBitacora = New DevExpress.XtraEditors.PanelControl()
 		Me.dataSBitacora = New System.Windows.Forms.DataGridView()
-		Me.listaDes = New System.Windows.Forms.ListBox()
+		Me.lstFecha = New System.Windows.Forms.ListBox()
+		Me.lstAccion = New System.Windows.Forms.ListBox()
 		CType(Me.pnlComs, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.pnlComs.SuspendLayout()
 		CType(Me.RepositoryItemTextEdit4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,6 +112,18 @@ Partial Class frmMenu
 		Me.pnlComs.Size = New System.Drawing.Size(657, 533)
 		Me.pnlComs.TabIndex = 1
 		Me.pnlComs.Visible = False
+		'
+		'listaDes
+		'
+		Me.listaDes.BackColor = System.Drawing.SystemColors.Control
+		Me.listaDes.BorderStyle = System.Windows.Forms.BorderStyle.None
+		Me.listaDes.FormattingEnabled = True
+		Me.listaDes.ItemHeight = 16
+		Me.listaDes.Items.AddRange(New Object() {"Usuarios desconectados"})
+		Me.listaDes.Location = New System.Drawing.Point(334, 429)
+		Me.listaDes.Name = "listaDes"
+		Me.listaDes.Size = New System.Drawing.Size(323, 96)
+		Me.listaDes.TabIndex = 16
 		'
 		'Label2
 		'
@@ -349,7 +363,7 @@ Partial Class frmMenu
 		'RepositoryItemButtonEdit2
 		'
 		Me.RepositoryItemButtonEdit2.AutoHeight = False
-		Me.RepositoryItemButtonEdit2.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Ellipsis, "", -1, True, True, False, DevExpress.XtraEditors.ImageLocation.MiddleCenter, Nothing, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject2, "Establecer", Nothing, Nothing, True)})
+		Me.RepositoryItemButtonEdit2.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Ellipsis, "", -1, True, True, False, DevExpress.XtraEditors.ImageLocation.MiddleCenter, Nothing, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject1, "Establecer", Nothing, Nothing, True)})
 		Me.RepositoryItemButtonEdit2.MaxLength = 4
 		Me.RepositoryItemButtonEdit2.Name = "RepositoryItemButtonEdit2"
 		'
@@ -424,23 +438,43 @@ Partial Class frmMenu
 		Me.dataSBitacora.Size = New System.Drawing.Size(647, 522)
 		Me.dataSBitacora.TabIndex = 0
 		'
-		'listaDes
+		'lstFecha
 		'
-		Me.listaDes.BackColor = System.Drawing.SystemColors.Control
-		Me.listaDes.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.listaDes.FormattingEnabled = True
-		Me.listaDes.ItemHeight = 16
-		Me.listaDes.Items.AddRange(New Object() {"Usuarios desconectados"})
-		Me.listaDes.Location = New System.Drawing.Point(334, 429)
-		Me.listaDes.Name = "listaDes"
-		Me.listaDes.Size = New System.Drawing.Size(323, 96)
-		Me.listaDes.TabIndex = 16
+		Me.lstFecha.BackColor = System.Drawing.SystemColors.ControlLight
+		Me.lstFecha.Cursor = System.Windows.Forms.Cursors.Default
+		Me.lstFecha.ForeColor = System.Drawing.Color.Black
+		Me.lstFecha.FormattingEnabled = True
+		Me.lstFecha.ItemHeight = 16
+		Me.lstFecha.Location = New System.Drawing.Point(251, 50)
+		Me.lstFecha.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+		Me.lstFecha.Name = "lstFecha"
+		Me.lstFecha.ScrollAlwaysVisible = True
+		Me.lstFecha.SelectionMode = System.Windows.Forms.SelectionMode.None
+		Me.lstFecha.Size = New System.Drawing.Size(218, 84)
+		Me.lstFecha.TabIndex = 7
+		'
+		'lstAccion
+		'
+		Me.lstAccion.BackColor = System.Drawing.SystemColors.ControlLight
+		Me.lstAccion.Cursor = System.Windows.Forms.Cursors.Default
+		Me.lstAccion.ForeColor = System.Drawing.Color.Black
+		Me.lstAccion.FormattingEnabled = True
+		Me.lstAccion.ItemHeight = 16
+		Me.lstAccion.Location = New System.Drawing.Point(475, 50)
+		Me.lstAccion.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+		Me.lstAccion.Name = "lstAccion"
+		Me.lstAccion.ScrollAlwaysVisible = True
+		Me.lstAccion.SelectionMode = System.Windows.Forms.SelectionMode.None
+		Me.lstAccion.Size = New System.Drawing.Size(194, 84)
+		Me.lstAccion.TabIndex = 9
 		'
 		'frmMenu
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(681, 696)
+		Me.Controls.Add(Me.lstAccion)
+		Me.Controls.Add(Me.lstFecha)
 		Me.Controls.Add(Me.pnlBitacora)
 		Me.Controls.Add(Me.rbControl)
 		Me.Controls.Add(Me.pnlComs)
@@ -508,4 +542,6 @@ Partial Class frmMenu
 	Friend WithEvents Label1 As System.Windows.Forms.Label
 	Friend WithEvents Label2 As System.Windows.Forms.Label
 	Friend WithEvents listaDes As System.Windows.Forms.ListBox
+	Friend WithEvents lstFecha As System.Windows.Forms.ListBox
+	Friend WithEvents lstAccion As System.Windows.Forms.ListBox
 End Class

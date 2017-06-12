@@ -41,11 +41,14 @@ Public Class vBitacora
 	End Sub
 	Public Function Manejo(ByVal usuContacto As String, ByVal accion As String, ByVal valor As String)
 		Try
-			If accion = "Login" Then
-				_detalle = usuContacto & " inicio sesion"
-			ElseIf accion = "Archivo" Then
-				_detalle = usuContacto & " agrego archivo " & valor
-			End If
+			Select Case accion
+				Case "Login"
+					_detalle = usuContacto & " inicio sesion"
+				Case "Archivo"
+					_detalle = usuContacto & " agrego archivo " & valor
+				Case "Bitacora"
+					_detalle = usuContacto & " solicito bitacora"
+			End Select
 		Catch ex As Exception
 			MsgBox(ex.Message)
 		End Try

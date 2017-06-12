@@ -4,19 +4,12 @@ Imports System.Net
 Imports System.Threading
 Imports System.Xml.Serialization
 Imports DevExpress.XtraBars
-
 Public Class frmMenu
-	Private dt As New DataTable : Dim MyDataAdapter As New SqlDataAdapter()
-	Dim WithEvents WinSockServer1 As New WinSockServer()
-	Private demo As Thread = Nothing
-	Private demo1 As Thread = Nothing
-	Private demo2 As Thread = Nothing
-	Dim _ip1, _ip2 As String
-	Dim _texto As String
-	Dim _valor1 As String
-	Dim _valor2 As String
-	Dim _valor3 As String
-	Dim _respuesta As String
+	Private dt As New DataTable : Dim _myDataAdapter As New SqlDataAdapter():Dim WithEvents WinSockServer1 As New WinSockServer()
+	Private _demo As Thread = Nothing : Private _demo1 As Thread = Nothing : Private _demo2 As Thread = Nothing
+	Dim _ip1, _ip2, _texto As String
+	'Dim  As String
+	Dim _valor1, _valor2, _valor3, _respuesta As String
 	Public Property Encrip As Md5_3Ds = New Md5_3Ds
 	Delegate Sub SetTextCallback(ByVal [text1] As String)
 	Private Sub frmMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -94,6 +87,61 @@ Public Class frmMenu
 			dataSBitacora.Update()
 			dataSBitacora.Refresh()
 
+			'Dim myDataTable As DataTable = func.mostrar
+			'Dim tempRow As DataRow
+			'Dim fechaB, detalle As String
+			'For Each tempRow In myDataTable.Rows
+			'	lstFecha.Items.Add(tempRow("fechaModif"))
+			'	lstAccion.Items.Add(tempRow("accion"))
+			'	fechaB = lstFecha.Text
+			'	detalle = lstAccion.Text
+			'Next
+
+			'Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
+			'Dim con As New SqlConnection(str)
+			'Dim cmd As String = "Select * from dbo.Bitacora"
+			'Dim adpt As New SqlDataAdapter(cmd, con)
+
+			'Dim myDataSet As New DataSet()
+			'adpt.Fill(myDataSet, "dbo.Bitacora")
+			'Dim fechaB, detalle As String
+			' '' '' ''Dim myDataTable As DataTable = func.mostrar
+			' '' '' ''lstFecha.DataSource = myDataTable
+			' '' '' ''lstFecha.DisplayMember = "fechaModif"
+
+
+			'MsgBox(fechaB)
+
+
+			'Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
+			'Dim con As New SqlConnection(str)
+			'Dim cmd As String = "Select * from dbo.Bitacora"
+			'Dim adpt As New SqlDataAdapter(cmd, con)
+			''Dim myDataSet As New DataSet()
+			''adpt.Fill(myDataSet, "dbo.Bitacora")
+			''dt = func.mostrar
+			'lstFecha.DataSource = dt
+			'lstAccion.DataSource = dt
+			'lstFecha.DisplayMember = "fechaModif"
+			'lstAccion.DisplayMember = "accion"
+			''da.Fill(dt)
+
+			'Dim tamAccion = lstAccion.Items.Count
+			'Dim fechaB(tamAccion), detalle(tamAccion) As String
+			''myDataSet.Tables(0)
+			''Dim tempRow As DataRow
+			'For i = 1 To tamAccion - 1 ' dataBita.Rows.Count - 1
+			'	MsgBox("9")
+			'	lstFecha.SelectedItem = lstFecha.Items(i)
+			'	MsgBox("10")
+			'	lstAccion.SelectedItem = lstAccion.Items(i)
+			'	MsgBox("11")
+			'	fechaB(i) = lstFecha.Text
+			'	MsgBox("12")
+			'	detalle(i) = lstAccion.Text
+			'	MsgBox("13")
+			'	'lstFecha.Items.Add(tempRow("fechaModif") & "        " & tempRow("accion"))
+			'Next
 		Catch ex As Exception
 			MsgBox(ex.Message)
 		End Try
@@ -145,18 +193,63 @@ Public Class frmMenu
 					rtxtMD5Enviado.Text = _valor2
 				End If
 			ElseIf Deserializar(rtxtXMLR.Text) = "Archivo" Then
-				'MsgBox(_nombre&_tipo&_tam&_fechaCrea)
 				rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, "Archivo")
 				rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
 				Try
-					Dim dts As New vArchivo : Dim func As New fArchivo : dts.gNomArchivo = _valor2 : dts.gArchivo = _valor3
-					If func.insertar(dts) Then
+					Dim dtsA As New vArchivo : Dim funA As New fArchivo : dtsA.gNomArchivo = _valor2 : dtsA.gArchivo = _valor3
+					If funA.insertar(dtsA) Then
 						LogBitacora("Archivo")
 						'MessageBox.Show("Registro correcto", "Guardando", MessageBoxButtons.OK, MessageBoxIcon.Information)
 						'Mostrar()
 					Else '	MessageBox.Show("No se pudo realizar el registro, intente de nuevo", "Guardando", MessageBoxButtons.OK, MessageBoxIcon.Error)
 						'Mostrar()
 					End If
+				Catch ex As Exception
+					MsgBox(ex.Message)
+				End Try
+			ElseIf Deserializar(rtxtXMLR.Text) = "Bitacora" Then
+				Try
+					Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
+					Dim con As New SqlConnection(str)
+					'Dim idu = consulta.DatosCliente(usu, pass, 1)
+					Dim comm As New SqlCommand("select * from Bitacora", con)
+					Dim da As New SqlDataAdapter(comm)
+
+					Dim dt As New DataTable
+					da.Fill(dt)
+					lstFecha.DataSource = dt
+					lstAccion.DataSource = dt
+					lstFecha.DisplayMember = "fechaModif"
+					lstAccion.DisplayMember = "accion"
+
+					Dim j = lstAccion.Items.Count
+					Dim fechaB(j), detalle(j) As String
+					For i = 1 To j - 1
+						lstFecha.SelectedItem = lstFecha.Items(i)
+						lstAccion.SelectedItem = lstAccion.Items(i)
+						fechaB(i) = lstFecha.Text
+						detalle(i) = lstAccion.Text
+					Next
+
+					'Dim func As New fBitacora
+					'Dim myDataTable As DataTable = func.mostrar
+					'Dim tempRow As DataRow
+
+					'For Each tempRow In myDataTable.Rows
+					'	lstFecha.Items.Add(tempRow("fechaModif") & "        " & tempRow("accion"))
+					'Next
+					''Dim func As New fBitacora
+					''Dim myDataTable As DataTable = func.mostrar
+					''lstFecha.DataSource = myDataTable
+					''lstFecha.DisplayMember = "fechaModif"
+
+					rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, lstFecha.Text, lstAccion.Text, "Bitacora")
+					rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
+
+
+					'WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXml(_valor1, lstFecha.Text, _valor3, "Bitacora")))
+					WinSockServer.EnviarDatos(rtxtEnviado.Text)
+					LogBitacora("Bitacora")
 				Catch ex As Exception
 					MsgBox(ex.Message)
 				End Try
@@ -181,17 +274,17 @@ Public Class frmMenu
 	End Sub
 	Private Sub WinSockServer_NuevaConexion(ByVal idTerminal As IPEndPoint) Handles WinSockServer1.NuevaConexion
 		_ip1 = idTerminal.Address.ToString & ":" & idTerminal.Port.ToString
-		demo = New Thread(New ThreadStart(AddressOf ThreadProcSafe)):
-		demo.Start()
+		_demo = New Thread(New ThreadStart(AddressOf ThreadProcSafe))
+		_demo.Start()
 		lblEstado.Caption = "Se ha conectado la IP " & idTerminal.Address.ToString & ", Puerto " & idTerminal.Port
 	End Sub
 	Private Sub WinSockServer_ConexionTerminada(ByVal idTerminal As IPEndPoint) Handles WinSockServer1.ConexionTerminada
 		_ip2 = idTerminal.Address.ToString & ":" & idTerminal.Port.ToString
-		demo2 = New Thread(New ThreadStart(AddressOf ThreadProcSafe2)):demo2.Start()
+		_demo2 = New Thread(New ThreadStart(AddressOf ThreadProcSafe2)) : _demo2.Start()
 		lblEstado.Caption = "Se ha desconectado la IP " & idTerminal.Address.ToString & ", Puerto " & idTerminal.Port
 	End Sub
 	Private Sub WinSockServer_DatosRecibidos(ByVal IDTerminal As IPEndPoint, ByVal Datos As String) Handles WinSockServer1.DatosRecibidos
-		_texto = Datos:demo1 = New Thread(New ThreadStart(AddressOf ThreadProcSafe1)):demo1.Start()
+		_texto = Datos : _demo1 = New Thread(New ThreadStart(AddressOf ThreadProcSafe1)) : _demo1.Start()
 	End Sub
 	Private Sub frmMenu_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
 		End
