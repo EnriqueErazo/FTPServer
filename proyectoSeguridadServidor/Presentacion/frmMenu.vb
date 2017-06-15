@@ -1,15 +1,21 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Net
+Imports System.Security.Cryptography
+Imports System.Security.Policy
 Imports System.Threading
 Imports System.Xml.Serialization
 Imports DevExpress.XtraBars
+
 Public Class frmMenu
-	Private dt As New DataTable : Dim _myDataAdapter As New SqlDataAdapter():Dim WithEvents WinSockServer1 As New WinSockServer()
+	Private dt As New DataTable : Dim _myDataAdapter As New SqlDataAdapter() : Dim WithEvents WinSockServer1 As New WinSockServer()
 	Private _demo As Thread = Nothing : Private _demo1 As Thread = Nothing : Private _demo2 As Thread = Nothing
 	Dim _ip1, _ip2, _texto As String
 	'Dim  As String
-	Dim _valor1, _valor2, _valor3, _respuesta As String
+	Dim _valor1 As String
+	Dim _valor2 As String
+	Dim _valor3 As String
+	Dim _hash, _respuesta As String
 	Public Property Encrip As Md5_3Ds = New Md5_3Ds
 	Delegate Sub SetTextCallback(ByVal [text1] As String)
 	Private Sub frmMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -74,77 +80,61 @@ Public Class frmMenu
 		End If
 	End Sub
 	Private Sub btnGenerar_ItemClick(sender As Object, e As ItemClickEventArgs) Handles btnGenerar.ItemClick
-		MostrarBitacora()
+		'Dim hola As ArrayList = Mostrar()
+		'MostrarBitacora() 'hola)
+		DeserializarBitacora(sendBitacora(fBitacora.mostrarC))
 	End Sub
-	Private Sub MostrarBitacora()
-		Dim dt As DataTable
-		Try
-			Dim func As New fBitacora
-			dt = func.mostrar
-			dataSBitacora.DataSource = dt
-			dataSBitacora.AutoResizeColumns()
-			dataSBitacora.Columns.Item("idBitacora").Visible = False
-			dataSBitacora.Update()
-			dataSBitacora.Refresh()
-
-			'Dim myDataTable As DataTable = func.mostrar
-			'Dim tempRow As DataRow
-			'Dim fechaB, detalle As String
-			'For Each tempRow In myDataTable.Rows
-			'	lstFecha.Items.Add(tempRow("fechaModif"))
-			'	lstAccion.Items.Add(tempRow("accion"))
-			'	fechaB = lstFecha.Text
-			'	detalle = lstAccion.Text
-			'Next
-
-			'Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
-			'Dim con As New SqlConnection(str)
-			'Dim cmd As String = "Select * from dbo.Bitacora"
-			'Dim adpt As New SqlDataAdapter(cmd, con)
-
-			'Dim myDataSet As New DataSet()
-			'adpt.Fill(myDataSet, "dbo.Bitacora")
-			'Dim fechaB, detalle As String
-			' '' '' ''Dim myDataTable As DataTable = func.mostrar
-			' '' '' ''lstFecha.DataSource = myDataTable
-			' '' '' ''lstFecha.DisplayMember = "fechaModif"
+	Private Sub MostrarBitacora() 'ByVal bi As ArrayList)
+		'Dim dt As DataTable
+		'Try
+		'Dim func As New fBitacora
+		'dt = func.mostrarS
+		'dataSBitacora.DataSource = dt
+		'dataSBitacora.AutoResizeColumns()
+		'dataSBitacora.Columns.Item("idBitacora").Visible = False
+		'dataSBitacora.Update()
+		'dataSBitacora.Refresh()
 
 
-			'MsgBox(fechaB)
+		'lstFecha.DataSource = dt
+		'lstFecha.DisplayMember = "fechaModif"
+		'lstFecha.ValueMember = "idBitacora"
+		'lstAccion.DataSource = dt
+		'lstAccion.DisplayMember = "accion"
+		'lstFecha.ValueMember = "idBitacora"
+		''RichTextBox1.Text = Mostrar()
 
 
-			'Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
-			'Dim con As New SqlConnection(str)
-			'Dim cmd As String = "Select * from dbo.Bitacora"
-			'Dim adpt As New SqlDataAdapter(cmd, con)
-			''Dim myDataSet As New DataSet()
-			''adpt.Fill(myDataSet, "dbo.Bitacora")
-			''dt = func.mostrar
-			'lstFecha.DataSource = dt
-			'lstAccion.DataSource = dt
-			'lstFecha.DisplayMember = "fechaModif"
-			'lstAccion.DisplayMember = "accion"
-			''da.Fill(dt)
 
-			'Dim tamAccion = lstAccion.Items.Count
-			'Dim fechaB(tamAccion), detalle(tamAccion) As String
-			''myDataSet.Tables(0)
-			''Dim tempRow As DataRow
-			'For i = 1 To tamAccion - 1 ' dataBita.Rows.Count - 1
-			'	MsgBox("9")
-			'	lstFecha.SelectedItem = lstFecha.Items(i)
-			'	MsgBox("10")
-			'	lstAccion.SelectedItem = lstAccion.Items(i)
-			'	MsgBox("11")
-			'	fechaB(i) = lstFecha.Text
-			'	MsgBox("12")
-			'	detalle(i) = lstAccion.Text
-			'	MsgBox("13")
-			'	'lstFecha.Items.Add(tempRow("fechaModif") & "        " & tempRow("accion"))
-			'Next
-		Catch ex As Exception
-			MsgBox(ex.Message)
-		End Try
+		'Dim func As New fBitacora
+		'' '' ''Dim myDataTable As DataTable = func.mostrarS
+		'' '' ''Dim tempRow As DataRow
+		'' '' ''Dim fecha As String
+		'' '' ''Dim accion As String
+
+		'' '' ''For Each tempRow In myDataTable.Rows
+		'' '' ''	fecha = lstFecha.Items.Add(tempRow("fechaModif"))
+		'' '' ''	Accion = lstAccion.Items.Add(tempRow("accion"))
+		'' '' ''Next
+
+
+
+
+		'RichTextBox1.Text = lstFecha.Items
+
+		'Catch ex As Exception
+		'	MsgBox(ex.Message)
+		'End Try
+
+		'' '' '' '' '' ''Dim contador As Integer = 0
+		'' '' '' '' '' ''For Each item As vBitacora In bi
+		'' '' '' '' '' ''	lstv1.Items.Add(Str(item.GID))
+		'' '' '' '' '' ''	lstv1.Items(contador).SubItems.Add(item.GUsuario)
+		'' '' '' '' '' ''	lstv1.Items(contador).SubItems.Add(item.Gfecha)
+		'' '' '' '' '' ''	lstv1.Items(contador).SubItems.Add(item.GAccion)
+		'' '' '' '' '' ''	contador += 1
+		'' '' '' '' '' ''Next
+
 	End Sub
 	Private Sub ThreadProcSafe()
 		SetText(_ip1)
@@ -164,6 +154,7 @@ Public Class frmMenu
 		SetText1(_texto)
 	End Sub
 	Private Sub SetText1(ByVal [text1])
+		Dim cadena As String
 		Dim xmldes As String
 		If rtxtRecibido.InvokeRequired Then
 			Dim d As New SetTextCallback(AddressOf SetText1)
@@ -172,90 +163,121 @@ Public Class frmMenu
 			rtxtRecibido.Text = _texto
 			xmldes = Encrip.DecryptString(rtxtRecibido.Text)
 			rtxtXMLR.Text = (xmldes)
-			Deserializar(rtxtXMLR.Text)
-			If Deserializar(rtxtXMLR.Text) = "Login" Then
-				Dim dtsC As New vContacto
-				Dim funC As New fContacto
-				dtsC.GUsuario = _valor1
-				dtsC.GPass = _valor2
-				If funC.Validacion(dtsC) Then
-					WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, "Login")))
-					rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, "Login")
-					rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
-					rtxtMD5Recibido.Text = _valor2
-					rtxtMD5Enviado.Text = _valor2
-					LogBitacora("Login")
-				Else
-					WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, "nulo")))
-					rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, "nulo")
-					rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
-					rtxtMD5Recibido.Text = _valor2
-					rtxtMD5Enviado.Text = _valor2
-				End If
-			ElseIf Deserializar(rtxtXMLR.Text) = "Archivo" Then
-				rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, "Archivo")
-				rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
-				Try
-					Dim dtsA As New vArchivo : Dim funA As New fArchivo : dtsA.gNomArchivo = _valor2 : dtsA.gArchivo = _valor3
-					If funA.insertar(dtsA) Then
-						LogBitacora("Archivo")
-						'MessageBox.Show("Registro correcto", "Guardando", MessageBoxButtons.OK, MessageBoxIcon.Information)
-						'Mostrar()
-					Else '	MessageBox.Show("No se pudo realizar el registro, intente de nuevo", "Guardando", MessageBoxButtons.OK, MessageBoxIcon.Error)
-						'Mostrar()
+			DLogin(rtxtXMLR.Text)
+			Dim tiempo = TimeOfDay.Hour().ToString() & ":" & TimeOfDay.Minute().ToString()
+			Dim unlock As String
+			Using md5Hash As MD5 = MD5.Create()
+				If Encrip.Md5Encryta(md5Hash, ManejoXml.Key(tiempo)) = _hash Then
+					If DLogin(rtxtXMLR.Text) = "Login" Then
+						Dim dtsC As New vContacto
+						Dim funC As New fContacto
+						dtsC.GUsuario = _valor1
+						dtsC.GPass = _valor2
+						If funC.Validacion(dtsC) Then
+							tiempo = TimeOfDay.Hour() & ":" & TimeOfDay.Minute()
+							unlock = Encrip.Md5Encryta(md5Hash, ManejoXml.Key(tiempo))
+							WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXmlLogin(_valor1, _valor2, unlock, "Login")))
+							rtxtXMLE.Text = ManejoXml.SerialiazarXmlLogin(_valor1, _valor2, _valor3, unlock, "Login")
+							rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
+							rtxtMD5Recibido.Text = _valor3
+							rtxtMD5Enviado.Text = unlock
+							LogBitacora("Login")
+						Else
+							WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXmlLogin(_valor1, _valor2, unlock, "nulo")))
+							rtxtXMLE.Text = ManejoXml.SerialiazarXmlLogin(_valor1, _valor2, _valor3, unlock, "nulo")
+							rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
+							rtxtMD5Recibido.Text = _valor3
+							rtxtMD5Enviado.Text = unlock
+						End If
+					ElseIf Deserializar(rtxtXMLR.Text) = "Archivo" Then
+						tiempo = TimeOfDay.Hour() & ":" & TimeOfDay.Minute()
+						unlock = Encrip.Md5Encryta(md5Hash, ManejoXml.Key(tiempo))
+						rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, _valor2, _valor3, unlock, "Archivo")
+						rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
+						Try
+							Dim dtsA As New vArchivo : Dim funA As New fArchivo : dtsA.gNomArchivo = _valor2 : dtsA.gArchivo = _valor3
+							If funA.insertar(dtsA) Then
+								LogBitacora("Archivo")
+								'MessageBox.Show("Registro correcto", "Guardando", MessageBoxButtons.OK, MessageBoxIcon.Information)
+								'Mostrar()
+							Else '	MessageBox.Show("No se pudo realizar el registro, intente de nuevo", "Guardando", MessageBoxButtons.OK, MessageBoxIcon.Error)
+								'Mostrar()
+							End If
+						Catch ex As Exception
+							MsgBox(ex.Message)
+						End Try
+					ElseIf Deserializar(rtxtXMLR.Text) = "Bitacora" Then
+						Try
+							Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
+							Dim conn As New SqlConnection(str)
+							'Dim idu = consulta.DatosCliente(usu, pass, 1)
+							Dim comm As New SqlCommand("select * from Bitacora", conn)
+							Dim da As New SqlDataAdapter(comm)
+
+							Dim dt As New DataTable
+							da.Fill(dt)
+							lstFecha.DataSource = dt
+							lstAccion.DataSource = dt
+							lstFecha.DisplayMember = "fechaModif"
+							lstAccion.DisplayMember = "accion"
+
+							Dim j As Integer = lstAccion.Items.Count
+							Dim fechaB(j) As String
+							Dim detalle(j) As String
+							For i = 1 To j - 1
+								lstFecha.SelectedItem = lstFecha.Items(i)
+								lstAccion.SelectedItem = lstAccion.Items(i)
+								fechaB(i) = lstFecha.Text
+								detalle(i) = lstAccion.Text
+							Next
+							'cadena = Encrip.EncryptString(ManejoXml.SerialiazarXml(_valor1, fechaB, detalle, unlock, "Bitacora")) 'j - 1
+
+							'For i = 0 To 10
+							'	If nombreCliente(i) = usu Then
+							'	RtbMensajeE.Text = cadena
+							WinSockServer.EnviarDatos(cadena)
+							'rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, fechaB, detalle, unlock, "Bitacora")
+							rtxtEnviado.Text = cadena
+							'	RtbMensajeEXml.Text = Encrip.DecryptString(cadena)
+							'	End If
+							'Next
+
+
+
+
+							Dim func As New fBitacora
+							Dim myDataTable As DataTable = func.mostrarS
+							Dim tempRow As DataRow
+
+							For Each tempRow In myDataTable.Rows
+								lstFecha.Items.Add(tempRow("fechaModif") & "        " & tempRow("accion"))
+							Next
+							'Dim func As New fBitacora
+							'Dim myDataTable As DataTable = func.mostrar
+							'lstFecha.DataSource = myDataTable
+							'lstFecha.DisplayMember = "fechaModif"
+
+
+
+
+							tiempo = TimeOfDay.Hour() & ":" & TimeOfDay.Minute()
+							unlock = Encrip.Md5Encryta(md5Hash, ManejoXml.Key(tiempo))
+							''''''''rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, lstFecha.Text, lstAccion.Text, unlock, "Bitacora")
+							rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
+
+
+							'WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXml(_valor1, lstFecha.Text, _valor3, "Bitacora")))
+							WinSockServer.EnviarDatos(rtxtEnviado.Text)
+							LogBitacora("Bitacora")
+						Catch ex As Exception
+							MsgBox(ex.Message)
+						End Try
 					End If
-				Catch ex As Exception
-					MsgBox(ex.Message)
-				End Try
-			ElseIf Deserializar(rtxtXMLR.Text) = "Bitacora" Then
-				Try
-					Dim str As String = "Data Source=ASUS-KL4UD10; Initial Catalog=proSeguridad; Integrated security=true"
-					Dim con As New SqlConnection(str)
-					'Dim idu = consulta.DatosCliente(usu, pass, 1)
-					Dim comm As New SqlCommand("select * from Bitacora", con)
-					Dim da As New SqlDataAdapter(comm)
-
-					Dim dt As New DataTable
-					da.Fill(dt)
-					lstFecha.DataSource = dt
-					lstAccion.DataSource = dt
-					lstFecha.DisplayMember = "fechaModif"
-					lstAccion.DisplayMember = "accion"
-
-					Dim j = lstAccion.Items.Count
-					Dim fechaB(j), detalle(j) As String
-					For i = 1 To j - 1
-						lstFecha.SelectedItem = lstFecha.Items(i)
-						lstAccion.SelectedItem = lstAccion.Items(i)
-						fechaB(i) = lstFecha.Text
-						detalle(i) = lstAccion.Text
-					Next
-
-					'Dim func As New fBitacora
-					'Dim myDataTable As DataTable = func.mostrar
-					'Dim tempRow As DataRow
-
-					'For Each tempRow In myDataTable.Rows
-					'	lstFecha.Items.Add(tempRow("fechaModif") & "        " & tempRow("accion"))
-					'Next
-					''Dim func As New fBitacora
-					''Dim myDataTable As DataTable = func.mostrar
-					''lstFecha.DataSource = myDataTable
-					''lstFecha.DisplayMember = "fechaModif"
-
-					rtxtXMLE.Text = ManejoXml.SerialiazarXml(_valor1, lstFecha.Text, lstAccion.Text, "Bitacora")
-					rtxtEnviado.Text = Encrip.EncryptString(rtxtXMLE.Text)
-
-
-					'WinSockServer.EnviarDatos(Encrip.EncryptString(ManejoXml.SerialiazarXml(_valor1, lstFecha.Text, _valor3, "Bitacora")))
-					WinSockServer.EnviarDatos(rtxtEnviado.Text)
-					LogBitacora("Bitacora")
-				Catch ex As Exception
-					MsgBox(ex.Message)
-				End Try
-			End If
-			'rtxtXMLE.Text = _usuario & _pass
-
+				Else
+					MsgBox("Hash esta corrupto 1")
+					'rtxtXMLE.Text = _usuario & _pass
+				End If
+			End Using
 		End If
 	End Sub
 	Private Sub ThreadProcSafe2()
@@ -289,13 +311,22 @@ Public Class frmMenu
 	Private Sub frmMenu_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
 		End
 	End Sub
-	Public Function Deserializar(ByVal str As String)
+	Public Function DLogin(ByVal str As String)
+		Dim serializer1 As New XmlSerializer(GetType(Login))
+		Dim items1 As Login
+		Using reader1 As New StringReader(str)
+			items1 = CType(serializer1.Deserialize(reader1), Login)
+		End Using
+		_valor1 = items1.Valor1 : _valor2 = items1.Valor2 : _valor3 = items1.Valor3 : _hash = items1.Hash : _respuesta = items1.Funcion
+		Return _respuesta
+	End Function
+	Public Function DeserializarBitacora(ByVal str As String)
 		Dim serializer1 As New XmlSerializer(GetType(XML))
 		Dim items1 As XML
 		Using reader1 As New StringReader(str)
 			items1 = CType(serializer1.Deserialize(reader1), XML)
 		End Using
-		_valor1 = items1.valor1 : _valor2 = items1.valor2 : _valor3 = items1.valor3 : _respuesta = items1.Funcion
+		_valor1 = items1.nombre : _valor2 = items1.archivo : _valor3 = items1.idContacto : _hash = items1.Hash : _respuesta = items1.Funcion
 		Return _respuesta
 	End Function
 	Public Sub LogBitacora(ByVal accion As String)
@@ -308,17 +339,70 @@ Public Class frmMenu
 		dtsB.GAccion = accionB
 		funB.Insertar(dtsB)
 	End Sub
-	Private Sub Mostrar()
+	Private Function Mostrar()
+		Dim result As New ArrayList
+		Dim myDataAdapter As New SqlDataAdapter()
 		Try
-			Dim func As New fArchivo
-			dt = func.mostrar
-			If dt.Rows.Count <> 0 Then
-				'dataListado.DataSource = dt : dataListado.ColumnHeadersVisible = True
-			Else
-				'dataListado.DataSource = Nothing : dataListado.ColumnHeadersVisible = False
-			End If
+			Dim dr As SqlDataReader
+			myDataAdapter.SelectCommand = New SqlCommand()
+			myDataAdapter.SelectCommand.Connection = New SqlConnection("Data Source = .; Initial Catalog = proSeguridad; Integrated Security = true")
+			myDataAdapter.SelectCommand.CommandText = "SELECT * FROM Bitacora"
+
+			'myDataAdapter.SelectCommand.Parameters.AddWithValue("@Cod_Usuario", getCodUsuario(usuario))
+
+			myDataAdapter.SelectCommand.Connection.Open() 'se abre la conexion
+			dr = myDataAdapter.SelectCommand.ExecuteReader
+
+			While dr.Read
+				result.Add(New vBitacora(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3)))
+			End While
+
 		Catch ex As Exception
-			MsgBox(ex.Message)
+			MessageBox.Show(ex.Message, "ERROR EXCEPCION!!")
+		Finally
+			Try
+				myDataAdapter.SelectCommand.Connection.Close() 'siempre se cerrara la conexion
+			Catch ex As Exception
+				MessageBox.Show(ex.Message, "ERROR EXCEPCION!!")
+			End Try
 		End Try
-	End Sub
+		Return result
+		'Try
+		'	Dim func As New fArchivo
+		'	dt = func.mostrar
+		'	If dt.Rows.Count <> 0 Then
+		'		'dataListado.DataSource = dt : dataListado.ColumnHeadersVisible = True
+		'	Else
+		'		'dataListado.DataSource = Nothing : dataListado.ColumnHeadersVisible = False
+		'	End If
+
+		'Catch ex As Exception
+		'	MsgBox(ex.Message)
+		'End Try
+		'Return lstFecha.Text
+	End Function
+
+	Public Function sendBitacora(ByVal bitacora As ArrayList) As String
+
+		'Dim dr As SqlDataReader
+		'Dim cmd As SqlCommand
+		'cmd = New SqlCommand()
+		'cmd.Connection = New SqlConnection("Data Source = .; Initial Catalog = proSeguridad; Integrated Security = true")
+		'cmd.CommandText = "SELECT * FROM Bitacora"
+		'cmd.Connection.Open()	'se abre la conexion
+		'dr = cmd.ExecuteReader
+
+		Static xmlSerializer As XmlSerializer : Static stringWriter As New StringWriter
+
+		'Dim bit As New XML1(_valor1, _valor2, _valor3, _hash, _respuesta)
+		Dim bit As New XML
+		xmlSerializer = New XmlSerializer(GetType(XML))
+		Dim ns As New XmlSerializerNamespaces() : ns.Add("", "") : stringWriter = New StringWriter
+
+		For Each elemento As String In bitacora.ToString()
+			Archivo.Listado.Add(elemento)
+		Next
+		xmlSerializer.Serialize(stringWriter, bit, ns) : stringWriter.Close()
+		Return stringWriter.ToString()
+	End Function
 End Class

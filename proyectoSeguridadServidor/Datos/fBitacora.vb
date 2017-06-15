@@ -2,7 +2,7 @@
 Public Class fBitacora
 	Inherits Conexion
 	Dim cmd As New SqlCommand
-	Public Function mostrar() As DataTable
+	Public Function mostrarS() As DataTable
 		Try
 			Conexion() : cmd = New SqlCommand("sp_mBitacora")
 			cmd.CommandType = CommandType.StoredProcedure : cmd.Connection = Cnn
@@ -16,6 +16,35 @@ Public Class fBitacora
 		Finally
 			Desconexion()
 		End Try
+	End Function
+	Public Shared Function mostrarC() As ArrayList
+		Dim result As New ArrayList
+		'Dim da As New SqlDataAdapter()
+		Try
+			Dim dr As SqlDataReader
+			Dim cmd As SqlCommand
+			cmd = New SqlCommand()
+			cmd.Connection = New SqlConnection("Data Source = .; Initial Catalog = proSeguridad; Integrated Security = true")
+			cmd.CommandText = "SELECT * FROM Bitacora"
+			cmd.Connection.Open()	'se abre la conexion
+			dr = cmd.ExecuteReader
+			'	Dim dr As SqlDataReader
+			'	'Conexion = New clsConexionBaseDatos(servidor, basededatos)
+			'	da.SelectCommand = New SqlCommand()
+			'	da.SelectCommand.Connection = New SqlConnection("Data Source = .; Initial Catalog = proSeguridad; Integrated Security = true")
+			'	da.SelectCommand.CommandText = "SELECT * FROM Bitacora"
+
+			'	'MyDataAdapter.SelectCommand.Parameters.AddWithValue("@Cod_Usuario", getCodUsuario(usuario))
+
+			'	da.SelectCommand.Connection.Open() 'se abre la conexion
+			'	dr = da.SelectCommand.ExecuteReader
+			While dr.Read
+				result.Add(New vBitacora(dr.GetString(2), dr.GetString(3)))
+			End While
+		Catch ex As Exception
+			MessageBox.Show(ex.Message)
+		End Try
+		Return result ' retorna el resultado
 	End Function
 	Public Function Insertar(ByVal dts As vBitacora) As Boolean
 		Try

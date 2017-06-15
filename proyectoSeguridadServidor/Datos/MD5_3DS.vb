@@ -100,21 +100,19 @@ Public Class Md5_3Ds
 		strTempDecrypt = System.Text.Encoding.UTF8.GetString(temp2)
 		Return strTempDecrypt
 	End Function
-	Public Function Md5Encryta(ByVal pass) As String
-		Dim pas As String
-		Dim enc As New ASCIIEncoding
-		Dim md5 As New MD5CryptoServiceProvider()
-		pas = enc.GetString(md5.ComputeHash(enc.GetBytes(pass)))
-		'Dim pas As String = ""
-		'Dim md5 As New MD5CryptoServiceProvider
-		'Dim bytValue() As Byte
-		'Dim bytHash() As Byte'Dim i As Integer
-		'bytValue = System.Text.Encoding.UTF8.GetBytes(pass)
-		'bytHash = md5.ComputeHash(bytValue)
-		'md5.Clear()
-		'For i = 0 To bytHash.Length - 1
-		'	pas &= bytHash(i).ToString("x").PadLeft(2, "0")
-		'Next
-		Return pas
+	Public Function Md5Encryta(ByVal md5Hash As MD5, ByVal input As String) As String
+		' Convert the input string to a byte array and compute the hash.
+		Dim data As Byte() = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(Input))
+		' Create a new Stringbuilder to collect the bytes
+		' and create a string.
+		Dim sBuilder As New StringBuilder()
+		' Loop through each byte of the hashed data 
+		' and format each one as a hexadecimal string.
+		Dim i As Integer
+		For i = 0 To data.Length - 1
+			sBuilder.Append(data(i).ToString("x2"))
+		Next i
+		' Return the hexadecimal string.
+		Return sBuilder.ToString()
 	End Function
 End Class

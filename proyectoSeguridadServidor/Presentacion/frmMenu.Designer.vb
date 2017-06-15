@@ -59,6 +59,8 @@ Partial Class frmMenu
 		Me.BarButtonItem1 = New DevExpress.XtraBars.BarButtonItem()
 		Me.BarButtonItem2 = New DevExpress.XtraBars.BarButtonItem()
 		Me.pnlBitacora = New DevExpress.XtraEditors.PanelControl()
+		Me.lstv1 = New System.Windows.Forms.ListView()
+		Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
 		Me.dataSBitacora = New System.Windows.Forms.DataGridView()
 		Me.lstFecha = New System.Windows.Forms.ListBox()
 		Me.lstAccion = New System.Windows.Forms.ListBox()
@@ -423,12 +425,30 @@ Partial Class frmMenu
 		'
 		'pnlBitacora
 		'
+		Me.pnlBitacora.Controls.Add(Me.lstv1)
+		Me.pnlBitacora.Controls.Add(Me.RichTextBox1)
 		Me.pnlBitacora.Controls.Add(Me.dataSBitacora)
 		Me.pnlBitacora.Location = New System.Drawing.Point(12, 150)
 		Me.pnlBitacora.Name = "pnlBitacora"
 		Me.pnlBitacora.Size = New System.Drawing.Size(657, 534)
 		Me.pnlBitacora.TabIndex = 4
 		Me.pnlBitacora.Visible = False
+		'
+		'lstv1
+		'
+		Me.lstv1.Location = New System.Drawing.Point(253, 5)
+		Me.lstv1.Name = "lstv1"
+		Me.lstv1.Size = New System.Drawing.Size(288, 190)
+		Me.lstv1.TabIndex = 2
+		Me.lstv1.UseCompatibleStateImageBehavior = False
+		'
+		'RichTextBox1
+		'
+		Me.RichTextBox1.Location = New System.Drawing.Point(503, 252)
+		Me.RichTextBox1.Name = "RichTextBox1"
+		Me.RichTextBox1.Size = New System.Drawing.Size(130, 150)
+		Me.RichTextBox1.TabIndex = 1
+		Me.RichTextBox1.Text = ""
 		'
 		'dataSBitacora
 		'
@@ -544,4 +564,6 @@ Partial Class frmMenu
 	Friend WithEvents listaDes As System.Windows.Forms.ListBox
 	Friend WithEvents lstFecha As System.Windows.Forms.ListBox
 	Friend WithEvents lstAccion As System.Windows.Forms.ListBox
+	Friend WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
+	Friend WithEvents lstv1 As System.Windows.Forms.ListView
 End Class

@@ -1,7 +1,15 @@
 ﻿Imports System.Data.SqlClient
 Public Class vBitacora
 	Inherits Conexion
-	Dim _usuContacto As String : Dim _fechaModif As String : Dim _accion As String : Dim _detalle As String
+	Dim id As Integer : Dim _usuContacto As String : Dim _fechaModif As String : Dim _accion As String : Dim _detalle As String
+	Public Property GID
+		Get
+			Return id
+		End Get
+		Set(ByVal value)
+			id = value
+		End Set
+	End Property
 	Public Property GUsuario
 		Get
 			Return _usuContacto
@@ -36,8 +44,10 @@ Public Class vBitacora
 	End Property
 	Public Sub New()
 	End Sub
-	Public Sub New(ByVal usuContacto As String, ByVal fechaModif As String, ByVal accion As String, ByVal detalle As String)
-		GUsuario = usuContacto : Gfecha = fechaModif : GAccion = accion : GDetalle = detalle
+	', ByVal detalle As String
+	Public Sub New(ByVal id As Integer, ByVal usuContacto As String, ByVal fechaModif As String, ByVal accion As String)
+		GID = id
+		GUsuario = usuContacto : Gfecha = fechaModif : GAccion = accion ' : GDetalle = detalle
 	End Sub
 	Public Function Manejo(ByVal usuContacto As String, ByVal accion As String, ByVal valor As String)
 		Try
@@ -54,4 +64,7 @@ Public Class vBitacora
 		End Try
 		Return _detalle
 	End Function
+	Public Sub New(ByVal fechaModif As String, ByVal accion As String)
+		Gfecha = fechaModif : GAccion = accion ' : GDetalle = detalle
+	End Sub
 End Class
