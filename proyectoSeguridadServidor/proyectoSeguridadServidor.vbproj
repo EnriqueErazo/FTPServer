@@ -80,7 +80,6 @@
     <Compile Include="Datos\fContacto.vb" />
     <Compile Include="Logica\vArchivo.vb" />
     <Compile Include="XML\XML.vb" />
-    <Compile Include="XML\Login.vb" />
     <Compile Include="Datos\manejoXML.vb" />
     <Compile Include="Datos\Conexion.vb" />
     <Compile Include="Datos\MD5_3DS.vb" />

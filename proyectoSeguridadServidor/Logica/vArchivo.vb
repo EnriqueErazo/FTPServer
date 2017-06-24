@@ -1,40 +1,19 @@
 ﻿Public Class vArchivo
-	Dim idArchivo As Integer : Dim nomArchivo As String : Dim archivo As String : Dim idcontacto As Integer
-	Public Property gIdArchivo
-		Get
-			Return idArchivo
-		End Get
-		Set(ByVal value)
-			idArchivo = value
-		End Set
-	End Property
-	Public Property gNomArchivo
-		Get
-			Return nomArchivo
-		End Get
-		Set(ByVal value)
-			nomArchivo = value
-		End Set
-	End Property
-	Public Property gArchivo
-		Get
-			Return archivo
-		End Get
-		Set(ByVal value)
-			archivo = value
-		End Set
-	End Property
-	Public Property gIdContacto
-		Get
-			Return idcontacto
-		End Get
-		Set(ByVal value)
-			idcontacto = value
-		End Set
-	End Property
+	Public Property GidArchivo As Integer
+	Public Property GNomArchivo As String
+	Public Property GExtension As String
+	Public Property GTamano As String
+	Public Property GFechaCrea As String
+	Public Property GContacto As String
+	Public Property GContenido As String
 	Public Sub New()
 	End Sub
-	Public Sub New(ByVal idArchivo As Integer, ByVal nomArchivo As String, ByVal archivo As String, ByVal idcontacto As Integer)
-		gIdArchivo = idArchivo : gNomArchivo = nomArchivo : gArchivo = archivo : gIdContacto = idcontacto
+	Public Sub New(ByVal codArchivo As Integer, ByVal nomArchivo As String, ByVal extArchivo As String, ByVal tamanoArchivo As String, ByVal fechaingresoArchivo As String, ByVal usuContacto As String)
+		GidArchivo = codArchivo : GNomArchivo = nomArchivo : GExtension = extArchivo : GTamano = tamanoArchivo
+		GFechaCrea = fechaingresoArchivo : GContacto = usuContacto : GContenido = ""
 	End Sub
+	'Public Function ArrElemento() As String()
+	'	Dim arc(6) As String : arc(0) = Str(GidArchivo) : arc(1) = GNomArchivo : arc(2) = GExtension : arc(3) = GTamano : arc(4) = GFechaCrea : arc(5) = GContacto
+	'	Return arc
+	'End Function
 End Class

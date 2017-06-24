@@ -59,11 +59,7 @@ Partial Class frmMenu
 		Me.BarButtonItem1 = New DevExpress.XtraBars.BarButtonItem()
 		Me.BarButtonItem2 = New DevExpress.XtraBars.BarButtonItem()
 		Me.pnlBitacora = New DevExpress.XtraEditors.PanelControl()
-		Me.lstv1 = New System.Windows.Forms.ListView()
-		Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
 		Me.dataSBitacora = New System.Windows.Forms.DataGridView()
-		Me.lstFecha = New System.Windows.Forms.ListBox()
-		Me.lstAccion = New System.Windows.Forms.ListBox()
 		CType(Me.pnlComs, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.pnlComs.SuspendLayout()
 		CType(Me.RepositoryItemTextEdit4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -425,30 +421,12 @@ Partial Class frmMenu
 		'
 		'pnlBitacora
 		'
-		Me.pnlBitacora.Controls.Add(Me.lstv1)
-		Me.pnlBitacora.Controls.Add(Me.RichTextBox1)
 		Me.pnlBitacora.Controls.Add(Me.dataSBitacora)
 		Me.pnlBitacora.Location = New System.Drawing.Point(12, 150)
 		Me.pnlBitacora.Name = "pnlBitacora"
 		Me.pnlBitacora.Size = New System.Drawing.Size(657, 534)
 		Me.pnlBitacora.TabIndex = 4
 		Me.pnlBitacora.Visible = False
-		'
-		'lstv1
-		'
-		Me.lstv1.Location = New System.Drawing.Point(253, 5)
-		Me.lstv1.Name = "lstv1"
-		Me.lstv1.Size = New System.Drawing.Size(288, 190)
-		Me.lstv1.TabIndex = 2
-		Me.lstv1.UseCompatibleStateImageBehavior = False
-		'
-		'RichTextBox1
-		'
-		Me.RichTextBox1.Location = New System.Drawing.Point(503, 252)
-		Me.RichTextBox1.Name = "RichTextBox1"
-		Me.RichTextBox1.Size = New System.Drawing.Size(130, 150)
-		Me.RichTextBox1.TabIndex = 1
-		Me.RichTextBox1.Text = ""
 		'
 		'dataSBitacora
 		'
@@ -458,46 +436,14 @@ Partial Class frmMenu
 		Me.dataSBitacora.Size = New System.Drawing.Size(647, 522)
 		Me.dataSBitacora.TabIndex = 0
 		'
-		'lstFecha
-		'
-		Me.lstFecha.BackColor = System.Drawing.SystemColors.ControlLight
-		Me.lstFecha.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lstFecha.ForeColor = System.Drawing.Color.Black
-		Me.lstFecha.FormattingEnabled = True
-		Me.lstFecha.ItemHeight = 16
-		Me.lstFecha.Location = New System.Drawing.Point(251, 50)
-		Me.lstFecha.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-		Me.lstFecha.Name = "lstFecha"
-		Me.lstFecha.ScrollAlwaysVisible = True
-		Me.lstFecha.SelectionMode = System.Windows.Forms.SelectionMode.None
-		Me.lstFecha.Size = New System.Drawing.Size(218, 84)
-		Me.lstFecha.TabIndex = 7
-		'
-		'lstAccion
-		'
-		Me.lstAccion.BackColor = System.Drawing.SystemColors.ControlLight
-		Me.lstAccion.Cursor = System.Windows.Forms.Cursors.Default
-		Me.lstAccion.ForeColor = System.Drawing.Color.Black
-		Me.lstAccion.FormattingEnabled = True
-		Me.lstAccion.ItemHeight = 16
-		Me.lstAccion.Location = New System.Drawing.Point(475, 50)
-		Me.lstAccion.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-		Me.lstAccion.Name = "lstAccion"
-		Me.lstAccion.ScrollAlwaysVisible = True
-		Me.lstAccion.SelectionMode = System.Windows.Forms.SelectionMode.None
-		Me.lstAccion.Size = New System.Drawing.Size(194, 84)
-		Me.lstAccion.TabIndex = 9
-		'
 		'frmMenu
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(681, 696)
-		Me.Controls.Add(Me.lstAccion)
-		Me.Controls.Add(Me.lstFecha)
-		Me.Controls.Add(Me.pnlBitacora)
 		Me.Controls.Add(Me.rbControl)
 		Me.Controls.Add(Me.pnlComs)
+		Me.Controls.Add(Me.pnlBitacora)
 		Me.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
 		Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -562,8 +508,4 @@ Partial Class frmMenu
 	Friend WithEvents Label1 As System.Windows.Forms.Label
 	Friend WithEvents Label2 As System.Windows.Forms.Label
 	Friend WithEvents listaDes As System.Windows.Forms.ListBox
-	Friend WithEvents lstFecha As System.Windows.Forms.ListBox
-	Friend WithEvents lstAccion As System.Windows.Forms.ListBox
-	Friend WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
-	Friend WithEvents lstv1 As System.Windows.Forms.ListView
 End Class

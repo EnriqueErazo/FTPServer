@@ -1,11 +1,19 @@
 ﻿Imports System.Data.SqlClient
 Public Class Conexion
 	Protected Cnn As New SqlConnection
-	Public Function Conexion()
+	Public Function Conexion() As SqlConnection
 		Try
-			If cnn.State = ConnectionState.Closed Then
-				Cnn = New SqlConnection("Data Source = .; Initial Catalog = proSeguridad; Integrated Security = true")
-				cnn.Open()
+			Cnn = New SqlConnection("Data Source = .; Initial Catalog = proSeguridadFinal; Integrated Security = true")
+		Catch ex As Exception
+			MsgBox(ex.Message)
+		End Try
+		Return cnn
+	End Function
+	Public Function ConexionA()
+		Try
+			If Cnn.State = ConnectionState.Closed Then
+				Cnn = New SqlConnection("Data Source = .; Initial Catalog = proSeguridadFinal; Integrated Security = true")
+				Cnn.Open()
 				Return True
 			End If
 		Catch ex As Exception
@@ -13,9 +21,6 @@ Public Class Conexion
 			Return False
 		End Try
 		Return False
-		'Dim cc As String
-		'cc = "server=ASUS-KL4UD10; database=ProyectoSeguridad31121158; Integrated Security=True"
-		'Return cc
 	End Function
 	Public Function Desconexion()
 		Try

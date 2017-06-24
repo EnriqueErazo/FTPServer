@@ -81,8 +81,8 @@ Public Class WinSockServer
 #End Region
 #Region "FUNCIONES PRIVADAS"
 	Private Sub EsperarCliente()
-		Dim InfoClienteActual As InfoDeUnCliente
-		With InfoClienteActual
+		Dim infoClienteActual As InfoDeUnCliente
+		With infoClienteActual
 			While True
 				'Cuando se recibe la conexion, guardo la informacion del cliente 
 				'Guardo el Socket que utilizo para mantener la conexion con el cliente 
@@ -94,7 +94,7 @@ Public Class WinSockServer
 				'Agrego la informacion del cliente al HashArray Clientes, donde esta la 
 				'informacion de todos estos 
 				SyncLock Me
-					Clientes.Add(IDClienteActual, InfoClienteActual)
+					Clientes.Add(IDClienteActual, infoClienteActual)
 				End SyncLock
 				'Genero el evento Nueva conexion 
 				RaiseEvent NuevaConexion(IDClienteActual)
